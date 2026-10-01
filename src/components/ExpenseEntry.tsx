@@ -3,12 +3,12 @@ import { useState } from "react";
 function ExpenseEntry() {
   const [item, setItem] = useState("");
   const [amount, setAmount] = useState("");
-  const [Quantity,setQuantity] = useState("");
+  const [quantity,setQuantity] = useState("");
 
-  const total = Number(amount) * Number(Quantity);
+  const total = Number(amount) * Number(quantity);
 
   function handleSubmit() {
-    if (!item || !amount || !Quantity) {
+    if (!item || !amount || !quantity) {
       alert("Please enter item,amount and Quantity");
       return;
     }
@@ -47,8 +47,8 @@ function ExpenseEntry() {
           </label>
 
           <input 
-            type="Number"
-            value={Quantity}
+            type="number"
+            value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             placeholder="Ex: 10"
             className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
@@ -64,7 +64,7 @@ function ExpenseEntry() {
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount"
+            placeholder="Enter amount per quantity"
             className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
           />
         </div>
