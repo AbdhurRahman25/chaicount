@@ -1,9 +1,16 @@
+import { useState } from "react";
 import Header from "./components/Header";
 import SummaryCard from "./components/SummaryCard";
 import QuickAction from "./components/QuickAction";
 import SalesEntry from "./components/SalesEntry";
 import ExpenseEntry from "./components/ExpenseEntry";
+
 function App() {
+  const [sales, setSales] = useState(0);
+  const [expenses, setExpenses] = useState(0);
+
+  const profit = sales - expenses;
+
   return (
     <main className="min-h-screen bg-gray-100 px-4 py-6">
       <div className="mx-auto max-w-md">
@@ -12,19 +19,19 @@ function App() {
         <section className="grid grid-cols-1 gap-4">
           <SummaryCard
             title="Today's Sales"
-            amount={1500}
+            amount={sales}
             type="sales"
           />
 
           <SummaryCard
             title="Today's Expenses"
-            amount={700}
+            amount={expenses}
             type="expense"
           />
 
           <SummaryCard
             title="Today's Profit"
-            amount={800}
+            amount={profit}
             type="profit"
           />
         </section>
@@ -40,9 +47,8 @@ function App() {
           </div>
         </section>
 
-        <ExpenseEntry />
-
         <SalesEntry />
+        <ExpenseEntry />
       </div>
     </main>
   );

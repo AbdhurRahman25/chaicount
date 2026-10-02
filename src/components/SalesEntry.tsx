@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-function SalesEntry() {
+type SalesEntryProps = {
+  onAddSale: (total: number) => void;
+};
+
+function SalesEntry({ onAddSale }: SalesEntryProps) {
   const [cups, setCups] = useState("");
   const [price, setPrice] = useState("");
 
@@ -12,7 +16,11 @@ function SalesEntry() {
       return;
     }
 
-    alert(`Total Sales: ₹${total.toLocaleString("en-IN")}`);
+    onAddSale(total);
+
+    alert(
+      `Sale Added: ${cups} cups - ₹${total.toLocaleString("en-IN")}`,
+    );
 
     setCups("");
     setPrice("");
@@ -32,6 +40,7 @@ function SalesEntry() {
 
           <input
             type="number"
+            min="1"
             value={cups}
             onChange={(e) => setCups(e.target.value)}
             placeholder="Enter cups"
@@ -46,6 +55,7 @@ function SalesEntry() {
 
           <input
             type="number"
+            min="1"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="Enter price"
