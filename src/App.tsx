@@ -20,7 +20,8 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 px-4 py-6">
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900
+    to-emerald-950 text-white px-4 py-6">
       <div className="mx-auto max-w-md">
         <Header />
 
