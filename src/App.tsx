@@ -11,6 +11,14 @@ function App() {
 
   const profit = sales - expenses;
 
+  function handleAddSale(total: number) {
+    setSales((currentSales) => currentSales + total);
+  }
+
+  function handleAddExpense(total: number) {
+    setExpenses((currentExpenses) => currentExpenses + total);
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 px-4 py-6">
       <div className="mx-auto max-w-md">
@@ -47,8 +55,9 @@ function App() {
           </div>
         </section>
 
-        <SalesEntry />
-        <ExpenseEntry />
+        <SalesEntry onAddSale={handleAddSale} />
+
+        <ExpenseEntry onAddExpense={handleAddExpense} />
       </div>
     </main>
   );

@@ -1,23 +1,41 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
-function ExpenseEntry() {
+type ExpenseEntryProps = {
+  onAddExpense: (total: number) => void;
+};
+
+function ExpenseEntry({ onAddExpense }: ExpenseEntryProps) {
   const [item, setItem] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [amount, setAmount] = useState("");
-  const [quantity,setQuantity] = useState("");
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const total = Number(amount) * Number(quantity);
+  const total = Number(quantity) * Number(amount);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>,
+    index:number
+  ) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
 
   function handleSubmit() {
-    if (!item || !amount || !quantity) {
-      alert("Please enter item,amount and Quantity");
+    if (!item || !quantity || !amount) {
+      alert("Please enter item, quantity and amount");
       return;
     }
 
-    alert(`Expense Added: ${item} - ₹${Number(amount).toLocaleString("en-IN")}`);
+    onAddExpense(total);
+
+    alert(
+      `Expense Added: ${item} - ₹${total.toLocaleString("en-IN")}`,
+    );
 
     setItem("");
-    setAmount("");
     setQuantity("");
+    setAmount("");
   }
 
   return (
@@ -36,6 +54,8 @@ function ExpenseEntry() {
             type="text"
             value={item}
             onChange={(e) => setItem(e.target.value)}
+            ref={(el) =>{inputRefs.current[0] = el;}}
+            onKeyDown={(e) => handleKeyDown(e, 0)}
             placeholder="Eg: Milk, Sugar, Tea Powder"
             className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
           />
@@ -46,35 +66,42 @@ function ExpenseEntry() {
             Quantity
           </label>
 
-          <input 
+          <input
             type="number"
+            min="1"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            placeholder="Ex: 10"
+            ref={(el) =>{inputRefs.current[1] = el;}}
+            onKeyDown={(e) => handleKeyDown(e, 1)}
+
+            placeholder="Enter quantity"
             className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
-            />
+          />
         </div>
 
         <div>
           <label className="text-sm font-medium text-gray-700">
-            Amount
+            Amount Per Quantity
           </label>
 
           <input
             type="number"
+            min="1"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount per quantity"
+            ref={(el) =>{inputRefs.current[2] = el;}}
+            onKeyDown={(e) => handleKeyDown(e, 2)}
+            placeholder="Enter amount"
             className="mt-1 w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-gray-900"
           />
         </div>
 
         <div className="rounded-xl bg-gray-100 p-4">
           <p className="text-sm text-gray-500">
-            Total Expenses
+            Total Expense
           </p>
 
-          <p className="mt-1 text-2xl font-bold text-green-600">
+          <p className="mt-1 text-2xl font-bold text-red-600">
             ₹{total.toLocaleString("en-IN")}
           </p>
         </div>
